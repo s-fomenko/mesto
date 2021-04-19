@@ -7,7 +7,7 @@
   border: 1px solid #fff;
 }
 
-@media (min-width:1024px) {
+@media (min-width:768px) {
   .profile__button_type_edit {
     width: 24px;
     height: 24px;

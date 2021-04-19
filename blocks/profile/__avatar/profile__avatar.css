@@ -4,7 +4,7 @@
   height: 120px;
 }
 
-@media (min-width:1024px) {
+@media (min-width:768px) {
   .profile__avatar {
     margin-right: 30px;
     margin-bottom: 0;
