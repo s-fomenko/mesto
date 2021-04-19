@@ -1,0 +1,9 @@
+.profile__info {
+  margin-bottom: 32px;
+}
+
+@media (min-width:1024px) {
+  .profile__info {
+    margin-bottom: 0;
+  }
+}
