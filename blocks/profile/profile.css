@@ -8,6 +8,7 @@
 }
 
 @media (min-width:768px) {
+
   .profile {
     flex-direction: row;
   }

@@ -1,14 +1,14 @@
 .form__button {
   margin-top: 45px;
-  background-color: #000;
-  border-radius: 2px;
-  color: #fff;
-  width: 100%;
-  transition: opacity .4s ease;
-  border: 0;
   padding: 14px 0;
+  width: 100%;
+  border-radius: 2px;
+  border: 0;
+  background-color: #000;
   font-size: 14px;
   line-height: 17px;
+  transition: opacity .4s ease;
+  color: #fff;
 }
 
 .form__button:hover {
@@ -16,9 +16,10 @@
 }
 
 @media (min-width:1024px) {
+
   .form__button {
+    margin-top: 50px;
     font-size: 18px;
     line-height: 20px;
-    margin-top: 50px;
   }
 }

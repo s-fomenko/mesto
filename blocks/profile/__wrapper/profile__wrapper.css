@@ -6,6 +6,7 @@
 }
 
 @media (min-width:768px) {
+
   .profile__wrapper {
     align-items: baseline;
   }

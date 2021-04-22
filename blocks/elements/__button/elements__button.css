@@ -1,12 +1,11 @@
 .elements__button {
-  transition: opacity .4s ease;
-
-  box-sizing: border-box;
-  border: 0;
   padding: 0;
   width: 23px;
   height: 19px;
+  border: 0;
   background: transparent url(../../../images/like-icon.svg) no-repeat 50% / contain;
+  transition: opacity .4s ease;
+  box-sizing: border-box;
 }
 
 .elements__button:hover {

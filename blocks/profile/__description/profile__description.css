@@ -6,6 +6,7 @@
 }
 
 @media (min-width:768px) {
+
   .profile__description {
     text-align: left;
     font-size: 18px;
