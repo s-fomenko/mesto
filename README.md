@@ -8,4 +8,4 @@
 - CSS
 - JavaScript
 
-[Ссылка на страницу проекта]()
+[Ссылка на страницу проекта](https://s-fomenko.github.io/mesto/)
