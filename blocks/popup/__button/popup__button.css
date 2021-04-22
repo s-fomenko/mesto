@@ -1,14 +1,24 @@
 .popup__button {
   position: absolute;
-  top: -30px;
+  top: -52px;
   right: 0;
-  width: 26px;
-  height: 26px;
+  width: 36px;
+  height: 36px;
   transition: opacity .4s ease;
-  background: transparent url(../../../images/button-close.svg) no-repeat 50% / contain;
+  background: transparent url(../../../images/button-close.svg) no-repeat 50% / cover;
   border: 0;
+  padding: 0;
 }
 
 .popup__button:hover {
   opacity: 60%;
+}
+
+@media (min-width:1024px) {
+  .popup__button {
+    top: -50px;
+    right: -50px;
+    width: 60px;
+    height: 60px;
+  }
 }
