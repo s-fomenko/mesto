@@ -1,4 +1,4 @@
-.elements__button {
+.card__button {
   padding: 0;
   width: 23px;
   height: 19px;
@@ -8,6 +8,7 @@
   box-sizing: border-box;
 }
 
-.elements__button:hover {
-  opacity: 60%;
+.card__button:hover {
+  opacity: 50%;
+  cursor: pointer;
 }

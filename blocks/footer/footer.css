@@ -1,11 +1,11 @@
 .footer {
-  padding: 36px 19px 18px;
+  padding: 50px 19px 32px;
   color: #545454;
 }
 
 @media (min-width:1024px) {
 
   .footer {
-    padding: 52px 0 37px;
+    padding: 70px 0 55px;
   }
 }

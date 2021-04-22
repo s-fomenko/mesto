@@ -12,7 +12,8 @@
 }
 
 .form__button:hover {
-  opacity: 60%;
+  opacity: 80%;
+  cursor: pointer;
 }
 
 @media (min-width:1024px) {

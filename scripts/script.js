@@ -7,9 +7,6 @@ let formElement = document.querySelector('.form');
 let nameInput = formElement.querySelector('#name');
 let descriptionInput = formElement.querySelector('#description');
 
-nameInput.value = name.textContent;
-descriptionInput.value = description.textContent;
-
 let formSubmitHandler = (evt) => {
   evt.preventDefault();
   name.textContent = nameInput.value;
@@ -17,7 +14,14 @@ let formSubmitHandler = (evt) => {
   popup.classList.remove('popup_opened')
 }
 
-formElement.addEventListener('submit', formSubmitHandler);
+let formOpenHandler = () => {
+  nameInput.value = name.textContent;
+  descriptionInput.value = description.textContent;
+  popup.classList.add('popup_opened')
+}
 
-editButton.addEventListener('click', () => popup.classList.add('popup_opened'));
-closeButton.addEventListener('click', () => popup.classList.remove('popup_opened'));
+let formCloseHandler = () => popup.classList.remove('popup_opened')
+
+formElement.addEventListener('submit', formSubmitHandler);
+editButton.addEventListener('click', formOpenHandler);
+closeButton.addEventListener('click', formCloseHandler);

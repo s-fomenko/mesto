@@ -3,5 +3,6 @@
 }
 
 .profile__button:hover {
+  cursor: pointer;
   opacity: 60%;
 }

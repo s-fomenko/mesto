@@ -2,7 +2,7 @@
   padding: 0;
   width: 18px;
   height: 18px;
-  border: 1px solid #fff;
+  border: 0;
   background: transparent url(../../../../images/button-edit.svg) no-repeat 50% / cover;
   box-sizing: border-box;
 }
