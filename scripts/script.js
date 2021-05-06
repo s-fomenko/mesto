@@ -1,12 +1,12 @@
 // edit user info
-const popup = document.querySelector('.popup');
-const closeButton = document.querySelector('.popup__button');
+const popup = document.querySelector('.popup_type_edit');
+const closeButton = popup.querySelector('.popup__button');
 const editButton = document.querySelector('.profile__button_type_edit');
 const name = document.querySelector('.profile__name');
 const description = document.querySelector('.profile__description');
-const formElement = document.querySelector('.form');
-const nameInput = formElement.querySelector('#name');
-const descriptionInput = formElement.querySelector('#description');
+const editForm = document.querySelector('.form_type_edit');
+const nameInput = editForm.querySelector('#name');
+const descriptionInput = editForm.querySelector('#description');
 
 const formSubmitHandler = (evt) => {
   evt.preventDefault();
@@ -23,7 +23,7 @@ const formOpenHandler = () => {
 
 const formCloseHandler = () => popup.classList.remove('popup_opened')
 
-formElement.addEventListener('submit', formSubmitHandler);
+editForm.addEventListener('submit', formSubmitHandler);
 editButton.addEventListener('click', formOpenHandler);
 closeButton.addEventListener('click', formCloseHandler);
 
