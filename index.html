@@ -23,59 +23,17 @@
         </div>
         <button class="profile__button profile__button_type_add" type="button"></button>
       </section>
-      <section class="elements">
-        <article class="card">
-          <img class="card__image" src="./images/karachaevsk.jpg" alt="Карачаевск">
-          <div class="card__inner">
-            <h2 class="card__title">Карачаевск</h2>
-            <button class="card__button" type="button"></button>
-          </div>
-        </article>
-        <article class="card">
-          <img class="card__image" src="./images/elbrus-1.jpg" alt="Гора Эльбрус">
-          <div class="card__inner">
-            <h2 class="card__title">Гора Эльбрус</h2>
-            <button class="card__button" type="button"></button>
-          </div>
-        </article>
-        <article class="card">
-          <img class="card__image" src="./images/dombaj-1.jpg" alt="Домбай">
-          <div class="card__inner">
-            <h2 class="card__title">Домбай</h2>
-            <button class="card__button" type="button"></button>
-          </div>
-        </article>
-        <article class="card">
-          <img class="card__image" src="./images/elbrus-2.jpg" alt="Гора Эльбрус">
-          <div class="card__inner">
-            <h2 class="card__title">Гора Эльбрус</h2>
-            <button class="card__button" type="button"></button>
-          </div>
-        </article>
-        <article class="card">
-          <img class="card__image" src="./images/dombaj-2.jpg" alt="Домбай">
-          <div class="card__inner">
-            <h2 class="card__title">Домбай</h2>
-            <button class="card__button" type="button"></button>
-          </div>
-        </article>
-        <article class="card">
-          <img class="card__image" src="./images/karachay-cherkessia.jpg" alt="Карачаево-Черкесия">
-          <div class="card__inner">
-            <h2 class="card__title">Карачаево-Черкесия</h2>
-            <button class="card__button" type="button"></button>
-          </div>
-        </article>
-      </section>
+      <section class="elements"></section>
     </main>
     <footer class="footer">
       <p class="footer__capture">&copy; 2020 Mesto Russia</p>
     </footer>
   </div>
-  <div class="popup">
+
+  <div class="popup popup_type_edit">
     <div class="popup__container">
       <button class="popup__button" type="button"></button>
-      <form class="form" action="#" name="editProfile">
+      <form class="form form_type_edit" action="#" name="editProfile">
         <h2 class="form__title">Редактировать профиль</h2>
         <input class="form__input" id="name" type="text" name="name" placeholder="Имя" required>
         <input class="form__input" id="description" type="text" name="description" placeholder="Описание" required>
@@ -83,6 +41,40 @@
       </form>
     </div>
   </div>
+
+  <div class="popup popup_type_add">
+    <div class="popup__container">
+      <button class="popup__button" type="button"></button>
+      <form class="form form_type_add" action="#" name="editProfile">
+        <h2 class="form__title">Новое место</h2>
+        <input class="form__input" id="place" type="text" name="place" placeholder="Название" required>
+        <input class="form__input" id="link" type="text" name="link" placeholder="Ссылка на картинку" required>
+        <button class="form__button" type="submit">Создать</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="popup popup_type_image">
+    <div class="popup__container popup__container_type_image">
+      <button class="popup__button" type="button"></button>
+      <div class="image">
+        <img class="image__item" src="" alt="">
+        <p class="image__description"></p>
+      </div>
+    </div>
+  </div>
+
+  <template id="card-template">
+    <article class="card">
+      <img class="card__image" src="" alt="">
+      <div class="card__inner">
+        <h2 class="card__title"></h2>
+        <button class="card__button card__button_type_like" type="button"></button>
+      </div>
+      <button class="card__button card__button_type_remove" type="button"></button>
+    </article>
+  </template>
+
   <script src="scripts/script.js"></script>
 </body>
 </html>

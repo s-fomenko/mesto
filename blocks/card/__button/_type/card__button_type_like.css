@@ -1,0 +1,7 @@
+.card__button_type_like {
+  padding: 0;
+  width: 23px;
+  height: 19px;
+  border: 0;
+  background: transparent url(../../../../images/like-icon.svg) no-repeat 50% / contain;
+}
