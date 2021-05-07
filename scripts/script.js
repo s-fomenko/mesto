@@ -52,6 +52,12 @@ const initialCards = [
 // common methods
 const togglePopup = popupType => popupType.classList.toggle('popup_opened');
 
+const getLike = button => {
+  button.addEventListener('click', (evt) => {
+    evt.target.classList.toggle('card__button_active')
+  });
+};
+
 // edit user info
 const editFormOpenHandler = () => {
   nameInput.value = name.textContent;
@@ -77,6 +83,9 @@ getCard = () => {
   const card = cardTemplate.querySelector('.card').cloneNode(true);
   card.querySelector('.card__image').src = linkInput.value;
   card.querySelector('.card__title').textContent = placeInput.value;
+
+  const likeButton = card.querySelector('.card__button');
+  getLike(likeButton);
   return card;
 }
 
@@ -103,5 +112,9 @@ initialCards.forEach(item => {
   const card = cardTemplate.querySelector('.card').cloneNode(true);
   card.querySelector('.card__image').src = item.link;
   card.querySelector('.card__title').textContent = item.name;
+
+  const likeButton = card.querySelector('.card__button');
+  getLike(likeButton);
+
   cardsContainer.append(card);
 })
