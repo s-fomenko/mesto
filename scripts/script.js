@@ -1,6 +1,3 @@
-// const popup = document.querySelector('.popup');
-// const closeButton = popup.querySelector('.popup__button');
-
 const editButton = document.querySelector('.profile__button_type_edit');
 const editPopup = document.querySelector('.popup_type_edit');
 const editForm = document.querySelector('.form_type_edit');
@@ -58,6 +55,19 @@ const getLike = button => {
   });
 };
 
+const removeCard = button => {
+  button.addEventListener('click', (evt) => {
+    evt.target.closest('.card').remove();
+  });
+};
+
+const addListeners = card => {
+  const likeButton = card.querySelector('.card__button_type_like');
+  const removeButton = card.querySelector('.card__button_type_remove');
+  getLike(likeButton);
+  removeCard(removeButton);
+}
+
 // edit user info
 const editFormOpenHandler = () => {
   nameInput.value = name.textContent;
@@ -83,9 +93,7 @@ getCard = () => {
   const card = cardTemplate.querySelector('.card').cloneNode(true);
   card.querySelector('.card__image').src = linkInput.value;
   card.querySelector('.card__title').textContent = placeInput.value;
-
-  const likeButton = card.querySelector('.card__button');
-  getLike(likeButton);
+  addListeners(card);
   return card;
 }
 
@@ -112,9 +120,6 @@ initialCards.forEach(item => {
   const card = cardTemplate.querySelector('.card').cloneNode(true);
   card.querySelector('.card__image').src = item.link;
   card.querySelector('.card__title').textContent = item.name;
-
-  const likeButton = card.querySelector('.card__button');
-  getLike(likeButton);
-
+  addListeners(card);
   cardsContainer.append(card);
 })
