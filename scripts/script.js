@@ -1,53 +1,29 @@
 const editButton = document.querySelector('.profile__button_type_edit');
 const editPopup = document.querySelector('.popup_type_edit');
-const editForm = document.querySelector('.form_type_edit');
 const editCloseButton = editPopup.querySelector('.popup__button');
 
-const addButton = document.querySelector('.profile__button_type_add');
-const addPopup = document.querySelector('.popup_type_add');
-const addForm = document.querySelector('.form_type_add');
-const addCloseButton = addPopup.querySelector('.popup__button');
-
-const name = document.querySelector('.profile__name');
-const description = document.querySelector('.profile__description');
+const editForm = document.querySelector('.form_type_edit');
 const nameInput = editForm.querySelector('#name');
 const descriptionInput = editForm.querySelector('#description');
 
-const imagePopup = document.querySelector('.popup_type_image');
-const imageCloseButton = imagePopup.querySelector('.popup__button');
+const addButton = document.querySelector('.profile__button_type_add');
+const addPopup = document.querySelector('.popup_type_add');
+const addCloseButton = addPopup.querySelector('.popup__button');
 
+const addForm = document.querySelector('.form_type_add');
 const placeInput = addForm.querySelector('#place');
 const linkInput = addForm.querySelector('#link');
 
+const imagePopup = document.querySelector('.popup_type_image');
+const imageCloseButton = imagePopup.querySelector('.popup__button');
+const popupImage = imagePopup.querySelector('.image__item');
+const popupDescription = imagePopup.querySelector('.image__description');
+
+const name = document.querySelector('.profile__name');
+const description = document.querySelector('.profile__description');
+
 const cardTemplate = document.querySelector('#card-template').content;
 const cardsContainer = document.querySelector('.elements');
-
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
 
 // common methods
 const togglePopup = popupType => popupType.classList.toggle('popup_opened');
@@ -64,6 +40,19 @@ const removeCard = button => {
   });
 };
 
+const getImage = image => {
+  image.addEventListener('click', (evt) => {
+    const card = evt.target.closest('.card');
+    const cardImage = card.querySelector('.card__image');
+    const cardDescription = card.querySelector('.card__title');
+
+    popupImage.src = cardImage.src;
+    popupImage.alt = cardDescription.textContent;
+    popupDescription.textContent = cardDescription.textContent;
+    togglePopup(imagePopup);
+  });
+};
+
 const addListeners = card => {
   const likeButton = card.querySelector('.card__button_type_like');
   const removeButton = card.querySelector('.card__button_type_remove');
@@ -71,6 +60,18 @@ const addListeners = card => {
   getLike(likeButton);
   removeCard(removeButton);
   getImage(image);
+}
+
+getCard = (link, place) => {
+  const card = cardTemplate.querySelector('.card').cloneNode(true);
+  const cardImage = card.querySelector('.card__image');
+  const cardTitle = card.querySelector('.card__title');
+
+  cardImage.src = link;
+  cardImage.alt = place;
+  cardTitle.textContent = place;
+  addListeners(card);
+  return card;
 }
 
 // edit user info
@@ -87,22 +88,9 @@ const editFormSubmitHandler = (evt) => {
   togglePopup(editPopup);
 };
 
-const editFormCloseHandler = () => editPopup.classList.remove('popup_opened')
-
-editButton.addEventListener('click', editFormOpenHandler);
-editForm.addEventListener('submit', editFormSubmitHandler);
-editCloseButton.addEventListener('click', editFormCloseHandler);
+const editFormCloseHandler = () => togglePopup(editPopup);
 
 // add card
-getCard = () => {
-  const card = cardTemplate.querySelector('.card').cloneNode(true);
-  card.querySelector('.card__image').src = linkInput.value;
-  card.querySelector('.card__image').alt = placeInput.value;
-  card.querySelector('.card__title').textContent = placeInput.value;
-  addListeners(card);
-  return card;
-}
-
 const addFormOpenHandler = () => {
   addForm.reset();
   togglePopup(addPopup);
@@ -110,42 +98,27 @@ const addFormOpenHandler = () => {
 
 const addFormSubmitHandler = (evt) => {
   evt.preventDefault();
-  const card = getCard();
+  const card = getCard(linkInput.value, placeInput.value);
   cardsContainer.prepend(card);
   togglePopup(addPopup);
 };
 
-const addFormCloseHandler = () => addPopup.classList.remove('popup_opened')
+const addFormCloseHandler = () => togglePopup(addPopup);
 
+// image popup
+const imageFormCloseHandler = () => togglePopup(imagePopup);
+
+
+editButton.addEventListener('click', editFormOpenHandler);
+editForm.addEventListener('submit', editFormSubmitHandler);
+editCloseButton.addEventListener('click', editFormCloseHandler);
 addButton.addEventListener('click', addFormOpenHandler);
 addForm.addEventListener('submit', addFormSubmitHandler);
 addCloseButton.addEventListener('click', addFormCloseHandler);
-
-// image popup
-const getImage = image => {
-  image.addEventListener('click', (evt) => {
-    const card = evt.target.closest('.card');
-    const cardImage = card.querySelector('.card__image');
-    const cardDescription = card.querySelector('.card__title');
-    const popupImage = imagePopup.querySelector('.image__item');
-    const popupDescription = imagePopup.querySelector('.image__description');
-    popupImage.src = cardImage.src;
-    popupImage.alt = cardDescription.textContent;
-    popupDescription.textContent = cardDescription.textContent;
-    togglePopup(imagePopup);
-  });
-};
-
-const imageFormCloseHandler = () => imagePopup.classList.remove('popup_opened')
-
 imageCloseButton.addEventListener('click', imageFormCloseHandler);
 
 // create initial cards
 initialCards.forEach(item => {
-  const card = cardTemplate.querySelector('.card').cloneNode(true);
-  card.querySelector('.card__image').src = item.link;
-  card.querySelector('.card__image').alt = item.name;
-  card.querySelector('.card__title').textContent = item.name;
-  addListeners(card);
+  const card = getCard(item.link, item.name);
   cardsContainer.append(card);
 })
