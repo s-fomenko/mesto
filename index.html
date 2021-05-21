@@ -35,8 +35,14 @@
       <button class="popup__button" type="button"></button>
       <form class="form form_type_edit" action="#" name="editProfile">
         <h2 class="form__title">Редактировать профиль</h2>
-        <input class="form__input" id="name" type="text" name="name" placeholder="Имя" required>
-        <input class="form__input" id="description" type="text" name="description" placeholder="Описание" required>
+        <div class="form__input-wrapper">
+          <input class="form__input" id="name" type="text" name="name" placeholder="Имя" minlength="2" maxlength="40" required>
+          <span class="form__input-error name-error"></span>
+        </div>
+        <div class="form__input-wrapper">
+          <input class="form__input" id="description" type="text" name="description" placeholder="Описание" minlength="2" maxlength="200" required>
+          <span class="form__input-error description-error"></span>
+        </div>
         <button class="form__button" type="submit">Сохранить</button>
       </form>
     </div>
@@ -47,8 +53,14 @@
       <button class="popup__button" type="button"></button>
       <form class="form form_type_add" action="#" name="editProfile">
         <h2 class="form__title">Новое место</h2>
-        <input class="form__input" id="place" type="text" name="place" placeholder="Название" required>
-        <input class="form__input" id="link" type="url" name="link" placeholder="Ссылка на картинку" required>
+        <div class="form__input-wrapper">
+          <input class="form__input" id="place" type="text" name="place" placeholder="Название" minlength="2" maxlength="30" required>
+          <span class="form__input-error place-error"></span>
+        </div>
+        <div class="form__input-wrapper">
+          <input class="form__input" id="link" type="url" name="link" placeholder="Ссылка на картинку" required>
+          <span class="form__input-error link-error"></span>
+        </div>
         <button class="form__button" type="submit">Создать</button>
       </form>
     </div>
@@ -76,6 +88,7 @@
   </template>
 
   <script src="scripts/initialCards.js"></script>
+  <script src="scripts/validate.js"></script>
   <script src="scripts/script.js"></script>
 </body>
 </html>

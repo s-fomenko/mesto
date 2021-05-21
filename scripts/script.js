@@ -13,6 +13,8 @@ const addCloseButton = addPopup.querySelector('.popup__button');
 const addForm = document.querySelector('.form_type_add');
 const placeInput = addForm.querySelector('#place');
 const linkInput = addForm.querySelector('#link');
+const addFormButton = addForm.querySelector('.form__button');
+
 
 const imagePopup = document.querySelector('.popup_type_image');
 const imageCloseButton = imagePopup.querySelector('.popup__button');
@@ -25,8 +27,17 @@ const description = document.querySelector('.profile__description');
 const cardTemplate = document.querySelector('#card-template').content;
 const cardsContainer = document.querySelector('.elements');
 
+const popupList = document.querySelectorAll('.popup');
+
 // common methods
 const togglePopup = popupType => popupType.classList.toggle('popup_opened');
+
+const closePopup = popup => evt => {
+  if (evt.key === 'Escape') {
+    popup.classList.remove('popup_opened');
+    document.removeEventListener('keydown', closePopup(popup));
+  }
+}
 
 const getLike = button => {
   button.addEventListener('click', (evt) => {
@@ -49,6 +60,7 @@ const getImage = image => {
     popupImage.src = cardImage.src;
     popupImage.alt = cardDescription.textContent;
     popupDescription.textContent = cardDescription.textContent;
+    document.addEventListener('keydown', closePopup(imagePopup));
     togglePopup(imagePopup);
   });
 };
@@ -62,7 +74,7 @@ const addListeners = card => {
   getImage(image);
 }
 
-getCard = (link, place) => {
+const getCard = (link, place) => {
   const card = cardTemplate.querySelector('.card').cloneNode(true);
   const cardImage = card.querySelector('.card__image');
   const cardTitle = card.querySelector('.card__title');
@@ -78,6 +90,7 @@ getCard = (link, place) => {
 const editFormOpenHandler = () => {
   nameInput.value = name.textContent;
   descriptionInput.value = description.textContent;
+  document.addEventListener('keydown', closePopup(editPopup));
   togglePopup(editPopup);
 };
 
@@ -93,7 +106,9 @@ const editFormCloseHandler = () => togglePopup(editPopup);
 // add card
 const addFormOpenHandler = () => {
   addForm.reset();
+  document.addEventListener('keydown', closePopup(addPopup));
   togglePopup(addPopup);
+  toggleButtonState([placeInput, linkInput], addFormButton, config);
 };
 
 const addFormSubmitHandler = (evt) => {
@@ -121,4 +136,13 @@ imageCloseButton.addEventListener('click', imageFormCloseHandler);
 initialCards.forEach(item => {
   const card = getCard(item.link, item.name);
   cardsContainer.append(card);
+})
+
+// close popup methods
+popupList.forEach(popup => {
+  popup.addEventListener('click', evt => {
+    if (evt.target === evt.currentTarget) {
+      togglePopup(popup);
+    }
+  })
 })

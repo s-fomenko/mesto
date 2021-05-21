@@ -5,8 +5,9 @@
   border-bottom: 1px solid rgba(0, 0, 0, .2);
   font-size: 14px;
   line-height: 17px;
+  color: #000;
 }
 
-.form__input:not(:last-of-type) {
-  margin-bottom: 30px;
+.form__input::placeholder {
+  color: #c4c4c4;
 }
