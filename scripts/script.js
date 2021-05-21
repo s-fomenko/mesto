@@ -27,6 +27,8 @@ const description = document.querySelector('.profile__description');
 const cardTemplate = document.querySelector('#card-template').content;
 const cardsContainer = document.querySelector('.elements');
 
+const popupList = document.querySelectorAll('.popup');
+
 // common methods
 const togglePopup = popupType => popupType.classList.toggle('popup_opened');
 
@@ -64,7 +66,7 @@ const addListeners = card => {
   getImage(image);
 }
 
-getCard = (link, place) => {
+const getCard = (link, place) => {
   const card = cardTemplate.querySelector('.card').cloneNode(true);
   const cardImage = card.querySelector('.card__image');
   const cardTitle = card.querySelector('.card__title');
@@ -124,4 +126,13 @@ imageCloseButton.addEventListener('click', imageFormCloseHandler);
 initialCards.forEach(item => {
   const card = getCard(item.link, item.name);
   cardsContainer.append(card);
+})
+
+// close popup methods
+popupList.forEach(popup => {
+  popup.addEventListener('click', evt => {
+    if (evt.target === evt.currentTarget) {
+      togglePopup(popup);
+    }
+  })
 })
