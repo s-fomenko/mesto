@@ -32,6 +32,13 @@ const popupList = document.querySelectorAll('.popup');
 // common methods
 const togglePopup = popupType => popupType.classList.toggle('popup_opened');
 
+const closePopup = popup => evt => {
+  if (evt.key === 'Escape') {
+    popup.classList.remove('popup_opened');
+    document.removeEventListener('keydown', closePopup(popup));
+  }
+}
+
 const getLike = button => {
   button.addEventListener('click', (evt) => {
     evt.target.classList.toggle('card__button_active')
@@ -53,6 +60,7 @@ const getImage = image => {
     popupImage.src = cardImage.src;
     popupImage.alt = cardDescription.textContent;
     popupDescription.textContent = cardDescription.textContent;
+    document.addEventListener('keydown', closePopup(imagePopup));
     togglePopup(imagePopup);
   });
 };
@@ -82,6 +90,7 @@ const getCard = (link, place) => {
 const editFormOpenHandler = () => {
   nameInput.value = name.textContent;
   descriptionInput.value = description.textContent;
+  document.addEventListener('keydown', closePopup(editPopup));
   togglePopup(editPopup);
 };
 
@@ -97,6 +106,7 @@ const editFormCloseHandler = () => togglePopup(editPopup);
 // add card
 const addFormOpenHandler = () => {
   addForm.reset();
+  document.addEventListener('keydown', closePopup(addPopup));
   togglePopup(addPopup);
   toggleButtonState([placeInput, linkInput], addFormButton, config);
 };
