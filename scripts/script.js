@@ -13,6 +13,8 @@ const addCloseButton = addPopup.querySelector('.popup__button');
 const addForm = document.querySelector('.form_type_add');
 const placeInput = addForm.querySelector('#place');
 const linkInput = addForm.querySelector('#link');
+const addFormButton = addForm.querySelector('.form__button');
+
 
 const imagePopup = document.querySelector('.popup_type_image');
 const imageCloseButton = imagePopup.querySelector('.popup__button');
@@ -93,6 +95,8 @@ const editFormCloseHandler = () => togglePopup(editPopup);
 // add card
 const addFormOpenHandler = () => {
   addForm.reset();
+  addFormButton.disabled = true;
+  addFormButton.classList.add('form__button_disabled');
   togglePopup(addPopup);
 };
 
@@ -101,6 +105,8 @@ const addFormSubmitHandler = (evt) => {
   const card = getCard(linkInput.value, placeInput.value);
   cardsContainer.prepend(card);
   togglePopup(addPopup);
+  addFormButton.disabled = true;
+  addFormButton.classList.add('form__button_disabled');
 };
 
 const addFormCloseHandler = () => togglePopup(addPopup);
