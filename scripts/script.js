@@ -95,9 +95,8 @@ const editFormCloseHandler = () => togglePopup(editPopup);
 // add card
 const addFormOpenHandler = () => {
   addForm.reset();
-  addFormButton.disabled = true;
-  addFormButton.classList.add('form__button_disabled');
   togglePopup(addPopup);
+  toggleButtonState([placeInput, linkInput], addFormButton, config);
 };
 
 const addFormSubmitHandler = (evt) => {
@@ -105,8 +104,6 @@ const addFormSubmitHandler = (evt) => {
   const card = getCard(linkInput.value, placeInput.value);
   cardsContainer.prepend(card);
   togglePopup(addPopup);
-  addFormButton.disabled = true;
-  addFormButton.classList.add('form__button_disabled');
 };
 
 const addFormCloseHandler = () => togglePopup(addPopup);
