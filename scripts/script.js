@@ -29,13 +29,19 @@ const cardsContainer = document.querySelector('.elements');
 
 const popupList = document.querySelectorAll('.popup');
 
-// common methods
-const togglePopup = popupType => popupType.classList.toggle('popup_opened');
+const openPopup = (popupType) => {
+  popupType.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupByEsc);
+}
 
-const closePopup = popup => evt => {
+const closePopup = (popupType) => {
+  popupType.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupByEsc);
+}
+
+const closePopupByEsc = (evt) => {
   if (evt.key === 'Escape') {
-    popup.classList.remove('popup_opened');
-    document.removeEventListener('keydown', closePopup(popup));
+    popupList.forEach(popup => closePopup(popup));
   }
 }
 
@@ -60,8 +66,7 @@ const getImage = image => {
     popupImage.src = cardImage.src;
     popupImage.alt = cardDescription.textContent;
     popupDescription.textContent = cardDescription.textContent;
-    document.addEventListener('keydown', closePopup(imagePopup));
-    togglePopup(imagePopup);
+    openPopup(imagePopup);
   });
 };
 
@@ -90,24 +95,22 @@ const getCard = (link, place) => {
 const editFormOpenHandler = () => {
   nameInput.value = name.textContent;
   descriptionInput.value = description.textContent;
-  document.addEventListener('keydown', closePopup(editPopup));
-  togglePopup(editPopup);
+  openPopup(editPopup);
 };
 
 const editFormSubmitHandler = (evt) => {
   evt.preventDefault();
   name.textContent = nameInput.value;
   description.textContent = descriptionInput.value;
-  togglePopup(editPopup);
+  closePopup(editPopup);
 };
 
-const editFormCloseHandler = () => togglePopup(editPopup);
+const editFormCloseHandler = () => closePopup(editPopup);
 
 // add card
 const addFormOpenHandler = () => {
   addForm.reset();
-  document.addEventListener('keydown', closePopup(addPopup));
-  togglePopup(addPopup);
+  openPopup(addPopup);
   toggleButtonState([placeInput, linkInput], addFormButton, config);
 };
 
@@ -115,13 +118,13 @@ const addFormSubmitHandler = (evt) => {
   evt.preventDefault();
   const card = getCard(linkInput.value, placeInput.value);
   cardsContainer.prepend(card);
-  togglePopup(addPopup);
+  closePopup(addPopup);
 };
 
-const addFormCloseHandler = () => togglePopup(addPopup);
+const addFormCloseHandler = () => closePopup(addPopup);
 
 // image popup
-const imageFormCloseHandler = () => togglePopup(imagePopup);
+const imageFormCloseHandler = () => closePopup(imagePopup);
 
 
 editButton.addEventListener('click', editFormOpenHandler);
@@ -142,7 +145,7 @@ initialCards.forEach(item => {
 popupList.forEach(popup => {
   popup.addEventListener('click', evt => {
     if (evt.target === evt.currentTarget) {
-      togglePopup(popup);
+      closePopup(popup);
     }
   })
 })
