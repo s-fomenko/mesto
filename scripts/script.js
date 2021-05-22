@@ -40,8 +40,10 @@ const closePopup = (popupType) => {
 }
 
 const closePopupByEsc = (evt) => {
+  const popupOpened = document.querySelector('.popup_opened');
+
   if (evt.key === 'Escape') {
-    popupList.forEach(popup => closePopup(popup));
+    closePopup(popupOpened);
   }
 }
 
