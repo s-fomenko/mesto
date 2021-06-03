@@ -120,7 +120,8 @@ const editFormCloseHandler = () => closePopup(editPopup);
 const addFormOpenHandler = () => {
   addForm.reset();
   openPopup(addPopup);
-  toggleButtonState([placeInput, linkInput], addFormButton, config);
+  addFormButton.disabled = true;
+  addFormButton.classList.add('form__button_disabled');
 };
 
 const addFormSubmitHandler = (evt) => {
