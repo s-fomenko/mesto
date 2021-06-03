@@ -24,7 +24,6 @@ const popupDescription = imagePopup.querySelector('.image__description');
 const name = document.querySelector('.profile__name');
 const description = document.querySelector('.profile__description');
 
-const cardTemplate = document.querySelector('#card-template').content;
 const cardsContainer = document.querySelector('.elements');
 
 const popupList = document.querySelectorAll('.popup');
@@ -47,50 +46,58 @@ const closePopupByEsc = (evt) => {
   }
 }
 
-const getLike = button => {
-  button.addEventListener('click', (evt) => {
-    evt.target.classList.toggle('card__button_active')
-  });
-};
+class Card {
+  constructor(link, place, cardTemplate) {
+    this._link = link;
+    this._place = place;
+    this._cardTemplate = cardTemplate;
+  }
 
-const removeCard = button => {
-  button.addEventListener('click', (evt) => {
-    evt.target.closest('.card').remove();
-  });
-};
+  _getLike = button => {
+    button.addEventListener('click', (evt) => {
+      evt.target.classList.toggle('card__button_active')
+    });
+  }
 
-const getImage = image => {
-  image.addEventListener('click', (evt) => {
-    const card = evt.target.closest('.card');
-    const cardImage = card.querySelector('.card__image');
-    const cardDescription = card.querySelector('.card__title');
+  _removeCard = button => {
+    button.addEventListener('click', (evt) => {
+      evt.target.closest('.card').remove();
+    });
+  }
 
-    popupImage.src = cardImage.src;
-    popupImage.alt = cardDescription.textContent;
-    popupDescription.textContent = cardDescription.textContent;
-    openPopup(imagePopup);
-  });
-};
+  _getImage = image => {
+    image.addEventListener('click', (evt) => {
+      this._card = evt.target.closest('.card');
+      this._cardImage = this._card.querySelector('.card__image');
+      this._cardDescription = this._card.querySelector('.card__title');
 
-const addListeners = card => {
-  const likeButton = card.querySelector('.card__button_type_like');
-  const removeButton = card.querySelector('.card__button_type_remove');
-  const image = card.querySelector('.card__image');
-  getLike(likeButton);
-  removeCard(removeButton);
-  getImage(image);
-}
+      popupImage.src = this._cardImage.src;
+      popupImage.alt = this._cardDescription.textContent;
+      popupDescription.textContent = this._cardDescription.textContent;
+      openPopup(imagePopup);
+    });
+  }
 
-const getCard = (link, place) => {
-  const card = cardTemplate.querySelector('.card').cloneNode(true);
-  const cardImage = card.querySelector('.card__image');
-  const cardTitle = card.querySelector('.card__title');
+  _addListeners = card => {
+    this._likeButton = card.querySelector('.card__button_type_like');
+    this._removeButton = card.querySelector('.card__button_type_remove');
+    this._image = card.querySelector('.card__image');
+    this._getLike(this._likeButton);
+    this._removeCard(this._removeButton);
+    this._getImage(this._image);
+  }
 
-  cardImage.src = link;
-  cardImage.alt = place;
-  cardTitle.textContent = place;
-  addListeners(card);
-  return card;
+  getCard = () => {
+    this._card = document.querySelector(this._cardTemplate).content.querySelector('.card').cloneNode(true);
+    this._cardImage = this._card.querySelector('.card__image');
+    this._cardTitle = this._card.querySelector('.card__title');
+
+    this._cardImage.src = this._link;
+    this._cardImage.alt = this._place;
+    this._cardTitle.textContent = this._place;
+    this._addListeners(this._card);
+    return this._card;
+  }
 }
 
 // edit user info
@@ -118,8 +125,8 @@ const addFormOpenHandler = () => {
 
 const addFormSubmitHandler = (evt) => {
   evt.preventDefault();
-  const card = getCard(linkInput.value, placeInput.value);
-  cardsContainer.prepend(card);
+  const card = new Card(linkInput.value, placeInput.value, '#card-template');
+  cardsContainer.prepend(card.getCard());
   closePopup(addPopup);
 };
 
@@ -139,8 +146,8 @@ imageCloseButton.addEventListener('click', imageFormCloseHandler);
 
 // create initial cards
 initialCards.forEach(item => {
-  const card = getCard(item.link, item.name);
-  cardsContainer.append(card);
+  const card = new Card(item.link, item.name, '#card-template');
+  cardsContainer.append(card.getCard());
 })
 
 // close popup methods
