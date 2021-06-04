@@ -58,6 +58,14 @@ const closePopupByEsc = (evt) => {
     closePopup(popupOpened);
   }
 }
+
+const openImagePopup = (image, description) => {
+    popupImage.src = image.src;
+    popupImage.alt = description.textContent;
+    popupDescription.textContent = description.textContent;
+    openPopup(imagePopup);
+}
+
 // edit user info
 const editFormOpenHandler = () => {
   nameInput.value = name.textContent;
@@ -84,7 +92,7 @@ const addFormOpenHandler = () => {
 
 const addFormSubmitHandler = (evt) => {
   evt.preventDefault();
-  const card = new Card(linkInput.value, placeInput.value, '#card-template');
+  const card = new Card(linkInput.value, placeInput.value, '#card-template', openImagePopup);
   cardsContainer.prepend(card.getCard());
   closePopup(addPopup);
 };
@@ -105,7 +113,7 @@ imageCloseButton.addEventListener('click', imageFormCloseHandler);
 
 // create initial cards
 initialCards.forEach(item => {
-  const card = new Card(item.link, item.name, '#card-template');
+  const card = new Card(item.link, item.name, '#card-template', openImagePopup);
   cardsContainer.append(card.getCard());
 })
 

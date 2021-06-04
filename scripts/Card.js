@@ -1,8 +1,9 @@
 export class Card {
-  constructor(link, place, cardTemplate) {
+  constructor(link, place, cardTemplate, openImagePopupHandler) {
     this._link = link;
     this._place = place;
     this._cardTemplate = cardTemplate;
+    this._openImagePopupHandler = openImagePopupHandler;
   }
 
   _getLike = button => {
@@ -23,10 +24,7 @@ export class Card {
       this._cardImage = this._card.querySelector('.card__image');
       this._cardDescription = this._card.querySelector('.card__title');
 
-      popupImage.src = this._cardImage.src;
-      popupImage.alt = this._cardDescription.textContent;
-      popupDescription.textContent = this._cardDescription.textContent;
-      openPopup(imagePopup);
+      this._openImagePopupHandler(this._cardImage, this._cardDescription)
     });
   }
 
