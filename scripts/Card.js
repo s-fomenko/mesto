@@ -21,10 +21,7 @@ export class Card {
   _getImage = image => {
     image.addEventListener('click', (evt) => {
       this._card = evt.target.closest('.card');
-      this._cardImage = this._card.querySelector('.card__image');
-      this._cardDescription = this._card.querySelector('.card__title');
-
-      this._openImagePopupHandler(this._cardImage, this._cardDescription)
+      this._openImagePopupHandler(this._link, this._place)
     });
   }
 

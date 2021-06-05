@@ -17,8 +17,6 @@ const addCloseButton = addPopup.querySelector('.popup__button');
 const addForm = document.querySelector('.form_type_add');
 const placeInput = addForm.querySelector('#place');
 const linkInput = addForm.querySelector('#link');
-const addFormButton = addForm.querySelector('.form__button');
-
 
 const imagePopup = document.querySelector('.popup_type_image');
 const imageCloseButton = imagePopup.querySelector('.popup__button');
@@ -41,6 +39,11 @@ const config = {
   errorClass: 'form__input-error_visible'
 }
 
+const createCard = (link, place) => {
+  const card = new Card(link, place, '#card-template', openImagePopup);
+  return card.getCard();
+}
+
 const openPopup = (popupType) => {
   popupType.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupByEsc);
@@ -52,17 +55,16 @@ const closePopup = (popupType) => {
 }
 
 const closePopupByEsc = (evt) => {
-  const popupOpened = document.querySelector('.popup_opened');
-
   if (evt.key === 'Escape') {
+    const popupOpened = document.querySelector('.popup_opened');
     closePopup(popupOpened);
   }
 }
 
 const openImagePopup = (image, description) => {
-    popupImage.src = image.src;
-    popupImage.alt = description.textContent;
-    popupDescription.textContent = description.textContent;
+    popupImage.src = image;
+    popupImage.alt = description;
+    popupDescription.textContent = description;
     openPopup(imagePopup);
 }
 
@@ -84,16 +86,16 @@ const editFormCloseHandler = () => closePopup(editPopup);
 
 // add card
 const addFormOpenHandler = () => {
+  const addFormDisableButton = new FormValidator(addForm, config);
+
   addForm.reset();
+  addFormDisableButton.disableSubmitButton();
   openPopup(addPopup);
-  addFormButton.disabled = true;
-  addFormButton.classList.add('form__button_disabled');
 };
 
 const addFormSubmitHandler = (evt) => {
   evt.preventDefault();
-  const card = new Card(linkInput.value, placeInput.value, '#card-template', openImagePopup);
-  cardsContainer.prepend(card.getCard());
+  cardsContainer.prepend(createCard(linkInput.value, placeInput.value));
   closePopup(addPopup);
 };
 
@@ -113,8 +115,7 @@ imageCloseButton.addEventListener('click', imageFormCloseHandler);
 
 // create initial cards
 initialCards.forEach(item => {
-  const card = new Card(item.link, item.name, '#card-template', openImagePopup);
-  cardsContainer.append(card.getCard());
+  cardsContainer.append(createCard(item.link, item.name));
 })
 
 // close popup methods
