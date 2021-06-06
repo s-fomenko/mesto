@@ -68,6 +68,12 @@ const openImagePopup = (image, description) => {
     openPopup(imagePopup);
 }
 
+const editCardValidator = new FormValidator(editForm, config);
+editCardValidator.enableValidation();
+
+const addCardValidator = new FormValidator(addForm, config);
+addCardValidator.enableValidation();
+
 // edit user info
 const editFormOpenHandler = () => {
   nameInput.value = name.textContent;
@@ -86,10 +92,8 @@ const editFormCloseHandler = () => closePopup(editPopup);
 
 // add card
 const addFormOpenHandler = () => {
-  const addFormDisableButton = new FormValidator(addForm, config);
-
   addForm.reset();
-  addFormDisableButton.disableSubmitButton();
+  addCardValidator.disableSubmitButton();
   openPopup(addPopup);
 };
 
@@ -126,11 +130,3 @@ popupList.forEach(popup => {
     }
   })
 })
-
-// form validation
-const formList = Array.from(document.querySelectorAll('.form'));
-
-formList.forEach((formElement) => {
-  const form = new FormValidator(formElement, config);
-  form.enableValidation();
-});
