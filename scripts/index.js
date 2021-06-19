@@ -1,6 +1,7 @@
-import { Card } from "./Card.js";
-import { FormValidator } from "./FormValidator.js";
-import { initialCards } from "./initialCards.js";
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
+import { Section } from './Section.js';
+import { initialCards } from './initialCards.js';
 
 const editButton = document.querySelector('.profile__button_type_edit');
 const editPopup = document.querySelector('.popup_type_edit');
@@ -26,7 +27,7 @@ const popupDescription = imagePopup.querySelector('.image__description');
 const name = document.querySelector('.profile__name');
 const description = document.querySelector('.profile__description');
 
-const cardsContainer = document.querySelector('.elements');
+const cardsContainer = '.elements';
 
 const popupList = document.querySelectorAll('.popup');
 
@@ -43,6 +44,10 @@ const createCard = (link, place) => {
   const card = new Card(link, place, '#card-template', openImagePopup);
   return card.getCard();
 }
+
+const cardList = new Section({items: initialCards, renderer: ({ link, name }) => {
+    cardList.addItemToEnd(createCard(link, name));
+  }}, cardsContainer);
 
 const openPopup = (popupType) => {
   popupType.classList.add('popup_opened');
@@ -99,7 +104,7 @@ const addFormOpenHandler = () => {
 
 const addFormSubmitHandler = (evt) => {
   evt.preventDefault();
-  cardsContainer.prepend(createCard(linkInput.value, placeInput.value));
+  cardList.addItemToStart(createCard(linkInput.value, placeInput.value));
   closePopup(addPopup);
 };
 
@@ -118,9 +123,7 @@ addCloseButton.addEventListener('click', addFormCloseHandler);
 imageCloseButton.addEventListener('click', imageFormCloseHandler);
 
 // create initial cards
-initialCards.forEach(item => {
-  cardsContainer.append(createCard(item.link, item.name));
-})
+cardList.renderItems();
 
 // close popup methods
 popupList.forEach(popup => {
