@@ -2,6 +2,7 @@ import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 import { Section } from './Section.js';
 import { Popup } from './Popup.js';
+import {PopupWithImage} from './PopupWithImage.js';
 import { initialCards } from './initialCards.js';
 
 const editButton = document.querySelector('.profile__button_type_edit');
@@ -19,8 +20,6 @@ const placeInput = addForm.querySelector('#place');
 const linkInput = addForm.querySelector('#link');
 
 const imagePopupSelector = document.querySelector('.popup_type_image');
-const popupImage = imagePopupSelector.querySelector('.image__item');
-const popupDescription = imagePopupSelector.querySelector('.image__description');
 
 const name = document.querySelector('.profile__name');
 const description = document.querySelector('.profile__description');
@@ -37,20 +36,13 @@ const config = {
 }
 
 const createCard = (link, place) => {
-  const card = new Card(link, place, '#card-template', openImagePopup);
+  const card = new Card(link, place, '#card-template', imagePopup.open);
   return card.getCard();
 }
 
 const cardList = new Section({items: initialCards, renderer: ({ link, name }) => {
     cardList.addItemToEnd(createCard(link, name));
   }}, cardsContainer);
-
-const openImagePopup = (image, description) => {
-    popupImage.src = image;
-    popupImage.alt = description;
-    popupDescription.textContent = description;
-    imagePopup.open();
-}
 
 const editCardValidator = new FormValidator(editForm, config);
 editCardValidator.enableValidation();
@@ -92,7 +84,7 @@ const addFormSubmitHandler = (evt) => {
 };
 
 // image popup
-const imagePopup = new Popup(imagePopupSelector);
+const imagePopup = new PopupWithImage(imagePopupSelector);
 imagePopup.setEventListeners();
 
 
