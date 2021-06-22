@@ -25,7 +25,7 @@ export class Popup {
     document.removeEventListener('keydown', this._handleEscClose);
   }
 
-  setEventListeners = () => {
+  setEventListeners () {
     this._closeButton = this._popupSelector.querySelector('.popup__button');
     this._closeButton.addEventListener('click', this.close);
     this._popupSelector.addEventListener('click', this._handleOverlayClose);

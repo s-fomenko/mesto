@@ -2,7 +2,8 @@ import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 import { Section } from './Section.js';
 import { Popup } from './Popup.js';
-import {PopupWithImage} from './PopupWithImage.js';
+import { PopupWithImage } from './PopupWithImage.js';
+import { PopupWithForm } from './PopupWithForm.js';
 import { initialCards } from './initialCards.js';
 
 const editButton = document.querySelector('.profile__button_type_edit');
@@ -16,8 +17,6 @@ const addButton = document.querySelector('.profile__button_type_add');
 const addPopupSelector = document.querySelector('.popup_type_add');
 
 const addForm = document.querySelector('.form_type_add');
-const placeInput = addForm.querySelector('#place');
-const linkInput = addForm.querySelector('#link');
 
 const imagePopupSelector = document.querySelector('.popup_type_image');
 
@@ -68,19 +67,17 @@ const editFormSubmitHandler = (evt) => {
 };
 
 // add card
-const addPopup = new Popup(addPopupSelector);
+const addFormSubmitHandler = ({ link, place }) => {
+  cardList.addItemToStart(createCard(link, place));
+  addPopup.close();
+};
+
+const addPopup = new PopupWithForm(addPopupSelector, addFormSubmitHandler);
 
 const addFormOpenHandler = () => {
-  addForm.reset();
   addCardValidator.disableSubmitButton();
   addPopup.open();
   addPopup.setEventListeners();
-};
-
-const addFormSubmitHandler = (evt) => {
-  evt.preventDefault();
-  cardList.addItemToStart(createCard(linkInput.value, placeInput.value));
-  addPopup.close();
 };
 
 // image popup
@@ -91,7 +88,6 @@ imagePopup.setEventListeners();
 editButton.addEventListener('click', editFormOpenHandler);
 editForm.addEventListener('submit', editFormSubmitHandler);
 addButton.addEventListener('click', addFormOpenHandler);
-addForm.addEventListener('submit', addFormSubmitHandler);
 
 // create initial cards
 cardList.renderItems();
