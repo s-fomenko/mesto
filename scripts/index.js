@@ -3,6 +3,7 @@ import { FormValidator } from './FormValidator.js';
 import { Section } from './Section.js';
 import { PopupWithImage } from './PopupWithImage.js';
 import { PopupWithForm } from './PopupWithForm.js';
+import { UserInfo } from './UserInfo.js';
 import { initialCards } from './initialCards.js';
 
 const editButton = document.querySelector('.profile__button_type_edit');
@@ -49,17 +50,18 @@ const addCardValidator = new FormValidator(addForm, config);
 addCardValidator.enableValidation();
 
 // edit user info
+const userInfo = new UserInfo({nameElement, descriptionElement})
+
 const editFormSubmitHandler = ({ name, description }) => {
-  nameElement.textContent = name;
-  descriptionElement.textContent = description;
+  userInfo.setUserInfo(name, description);
   editPopup.close();
 };
 
 const editPopup = new PopupWithForm(editPopupSelector, editFormSubmitHandler)
 
 const editFormOpenHandler = () => {
-  nameInput.value = nameElement.textContent;
-  descriptionInput.value = descriptionElement.textContent;
+  nameInput.value = userInfo.getUserInfo().name
+  descriptionInput.value = userInfo.getUserInfo().description;
   editPopup.open();
   editPopup.setEventListeners();
 };
