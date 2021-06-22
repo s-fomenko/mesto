@@ -1,7 +1,6 @@
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 import { Section } from './Section.js';
-import { Popup } from './Popup.js';
 import { PopupWithImage } from './PopupWithImage.js';
 import { PopupWithForm } from './PopupWithForm.js';
 import { initialCards } from './initialCards.js';
@@ -20,8 +19,8 @@ const addForm = document.querySelector('.form_type_add');
 
 const imagePopupSelector = document.querySelector('.popup_type_image');
 
-const name = document.querySelector('.profile__name');
-const description = document.querySelector('.profile__description');
+const nameElement = document.querySelector('.profile__name');
+const descriptionElement = document.querySelector('.profile__description');
 
 const cardsContainer = '.elements';
 
@@ -50,20 +49,19 @@ const addCardValidator = new FormValidator(addForm, config);
 addCardValidator.enableValidation();
 
 // edit user info
-const editPopup = new Popup(editPopupSelector)
-
-const editFormOpenHandler = () => {
-  nameInput.value = name.textContent;
-  descriptionInput.value = description.textContent;
-  editPopup.open();
-  editPopup.setEventListeners();
+const editFormSubmitHandler = ({ name, description }) => {
+  nameElement.textContent = name;
+  descriptionElement.textContent = description;
+  editPopup.close();
 };
 
-const editFormSubmitHandler = (evt) => {
-  evt.preventDefault();
-  name.textContent = nameInput.value;
-  description.textContent = descriptionInput.value;
-  editPopup.close();
+const editPopup = new PopupWithForm(editPopupSelector, editFormSubmitHandler)
+
+const editFormOpenHandler = () => {
+  nameInput.value = nameElement.textContent;
+  descriptionInput.value = descriptionElement.textContent;
+  editPopup.open();
+  editPopup.setEventListeners();
 };
 
 // add card
@@ -86,7 +84,6 @@ imagePopup.setEventListeners();
 
 
 editButton.addEventListener('click', editFormOpenHandler);
-editForm.addEventListener('submit', editFormSubmitHandler);
 addButton.addEventListener('click', addFormOpenHandler);
 
 // create initial cards
