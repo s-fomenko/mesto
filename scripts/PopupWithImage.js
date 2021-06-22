@@ -12,7 +12,7 @@ export class PopupWithImage extends Popup {
     this._popupImage.src = image;
     this._popupImage.alt = description;
     this._popupDescription.textContent = description;
-    this._popupSelector.classList.add('popup_opened');
-    document.addEventListener('keydown', this._handleEscClose);
+
+    super.open();
   }
 }
