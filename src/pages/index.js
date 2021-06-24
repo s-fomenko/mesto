@@ -6,6 +6,8 @@ import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { initialCards } from '../components/initialCards.js';
 
+import './index.css';
+
 const editButton = document.querySelector('.profile__button_type_edit');
 const editPopupSelector = document.querySelector('.popup_type_edit');
 

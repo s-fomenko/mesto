@@ -1,5 +1,4 @@
 .popup__container_type_image {
-  /*position: relative;*/
   padding: 0;
   max-width: 75vw;
   width: calc(100% - 38px);
