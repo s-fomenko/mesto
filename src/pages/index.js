@@ -4,7 +4,8 @@ import { Section } from '../components/Section.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
-import { initialCards } from '../components/initialCards.js';
+import { initialCards } from '../utils/initialCards.js';
+import { config } from '../utils/constants.js';
 
 import './index.css';
 
@@ -27,22 +28,13 @@ const descriptionElement = document.querySelector('.profile__description');
 
 const cardsContainer = '.elements';
 
-const config = {
-  formSelector: '.form',
-  inputSelector: '.form__input',
-  submitButtonSelector: '.form__button',
-  inactiveButtonClass: 'form__button_disabled',
-  inputErrorClass: 'form__input_type_error',
-  errorClass: 'form__input-error_visible'
-}
-
-const createCard = (link, place) => {
-  const card = new Card(link, place, '#card-template', imagePopup.open);
+const createCard = (item) => {
+  const card = new Card(item, '#card-template', imagePopup.open);
   return card.getCard();
 }
 
-const cardList = new Section({items: initialCards, renderer: ({ link, name }) => {
-    cardList.addItemToEnd(createCard(link, name));
+const cardList = new Section({items: initialCards, renderer: (item) => {
+    cardList.addItemToEnd(createCard(item));
   }}, cardsContainer);
 
 const editCardValidator = new FormValidator(editForm, config);
@@ -59,27 +51,29 @@ const editFormSubmitHandler = ({ name, description }) => {
   editPopup.close();
 };
 
-const editPopup = new PopupWithForm(editPopupSelector, editFormSubmitHandler)
+const editPopup = new PopupWithForm(editPopupSelector, editFormSubmitHandler);
+editPopup.setEventListeners();
 
 const editFormOpenHandler = () => {
-  nameInput.value = userInfo.getUserInfo().name
-  descriptionInput.value = userInfo.getUserInfo().description;
+  const userData = userInfo.getUserInfo();
+
+  nameInput.value = userData.name
+  descriptionInput.value = userData.description;
   editPopup.open();
-  editPopup.setEventListeners();
 };
 
 // add card
-const addFormSubmitHandler = ({ link, place }) => {
-  cardList.addItemToStart(createCard(link, place));
+const addFormSubmitHandler = (item) => {
+  cardList.addItemToStart(createCard(item));
   addPopup.close();
 };
 
 const addPopup = new PopupWithForm(addPopupSelector, addFormSubmitHandler);
+addPopup.setEventListeners();
 
 const addFormOpenHandler = () => {
   addCardValidator.disableSubmitButton();
   addPopup.open();
-  addPopup.setEventListeners();
 };
 
 // image popup

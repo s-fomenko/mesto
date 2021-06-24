@@ -1,5 +1,5 @@
 export class Card {
-  constructor(link, place, cardTemplate, handleCardClick) {
+  constructor({ link, place }, cardTemplate, handleCardClick) {
     this._link = link;
     this._place = place;
     this._cardTemplate = cardTemplate;
