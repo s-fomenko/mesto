@@ -33,7 +33,7 @@ const createCard = (item) => {
   return card.getCard();
 }
 
-const cardList = new Section({items: initialCards, renderer: (item) => {
+const cardList = new Section({renderer: (item) => {
     cardList.addItemToEnd(createCard(item));
   }}, cardsContainer);
 
@@ -85,5 +85,5 @@ editButton.addEventListener('click', editFormOpenHandler);
 addButton.addEventListener('click', addFormOpenHandler);
 
 // create initial cards
-cardList.renderItems();
+cardList.renderItems(initialCards);
 
