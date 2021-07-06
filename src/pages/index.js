@@ -1,10 +1,10 @@
+import { Api } from '../components/Api.js';
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
 import { Section } from '../components/Section.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
-import { initialCards } from '../utils/initialCards.js';
 import { config } from '../utils/constants.js';
 
 import './index.css';
@@ -25,8 +25,17 @@ const imagePopupSelector = document.querySelector('.popup_type_image');
 
 const nameElement = document.querySelector('.profile__name');
 const descriptionElement = document.querySelector('.profile__description');
+const avatarElement = document.querySelector('.profile__avatar');
 
 const cardsContainer = '.elements';
+
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-25',
+  headers: {
+    authorization: '2b1e20c0-2d56-4dae-97da-d3c1a4fc77d4',
+    'Content-Type': 'application/json'
+  }
+})
 
 const createCard = (item) => {
   const card = new Card(item, '#card-template', imagePopup.open);
@@ -44,7 +53,7 @@ const addCardValidator = new FormValidator(addForm, config);
 addCardValidator.enableValidation();
 
 // edit user info
-const userInfo = new UserInfo({nameElement, descriptionElement})
+const userInfo = new UserInfo({nameElement, descriptionElement, avatarElement})
 
 const editFormSubmitHandler = ({ name, description }) => {
   userInfo.setUserInfo(name, description);
@@ -84,6 +93,17 @@ imagePopup.setEventListeners();
 editButton.addEventListener('click', editFormOpenHandler);
 addButton.addEventListener('click', addFormOpenHandler);
 
+// create initial userInfo
+api.getUserInfo()
+  .then(user => {
+    userInfo.setUserInfo(user.name, user.about, user.avatar);
+  })
+  .catch(err => console.log(err))
+
 // create initial cards
-cardList.renderItems(initialCards);
+api.getCards()
+  .then(cards => {
+    cardList.renderItems(cards);
+  })
+  .catch(err => console.log(err))
 

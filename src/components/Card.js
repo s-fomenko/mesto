@@ -1,7 +1,7 @@
 export class Card {
-  constructor({ link, place }, cardTemplate, handleCardClick) {
+  constructor({ link, name }, cardTemplate, handleCardClick) {
     this._link = link;
-    this._place = place;
+    this._name = name;
     this._cardTemplate = cardTemplate;
     this._handleCardClick = handleCardClick;
   }
@@ -21,7 +21,7 @@ export class Card {
   _getImage = image => {
     image.addEventListener('click', (evt) => {
       this._card = evt.target.closest('.card');
-      this._handleCardClick(this._link, this._place)
+      this._handleCardClick(this._link, this._name)
     });
   }
 
@@ -40,8 +40,8 @@ export class Card {
     this._cardTitle = this._card.querySelector('.card__title');
 
     this._cardImage.src = this._link;
-    this._cardImage.alt = this._place;
-    this._cardTitle.textContent = this._place;
+    this._cardImage.alt = this._name;
+    this._cardTitle.textContent = this._name;
     this._addListeners(this._card);
     return this._card;
   }
