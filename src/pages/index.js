@@ -96,7 +96,7 @@ addButton.addEventListener('click', addFormOpenHandler);
 // create initial userInfo
 api.getUserInfo()
   .then(user => {
-    userInfo.setUserInfo(user.name, user.about, user.avatar);
+    userInfo.setUserInitialInfo(user.name, user.about, user.avatar);
   })
   .catch(err => console.log(err))
 
