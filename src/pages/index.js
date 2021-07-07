@@ -57,6 +57,8 @@ const userInfo = new UserInfo({nameElement, descriptionElement, avatarElement})
 
 const editFormSubmitHandler = ({ name, description }) => {
   userInfo.setUserInfo(name, description);
+  api.editUserInfo(name, description)
+    .catch(err => console.log(err))
   editPopup.close();
 };
 

@@ -27,4 +27,16 @@ export class Api {
     })
       .then(this._checkServerResponse)
   }
+
+  editUserInfo = (name, about) => {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        name: name,
+        about: about
+      })
+    })
+      .then(this._checkServerResponse)
+  }
 }
