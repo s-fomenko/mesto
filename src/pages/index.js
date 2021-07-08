@@ -8,6 +8,7 @@ import { UserInfo } from '../components/UserInfo.js';
 import { config } from '../utils/constants.js';
 
 import './index.css';
+import {Popup} from '../components/Popup';
 
 const editButton = document.querySelector('.profile__button_type_edit');
 const editPopupSelector = document.querySelector('.popup_type_edit');
@@ -22,6 +23,8 @@ const addPopupSelector = document.querySelector('.popup_type_add');
 const addForm = document.querySelector('.form_type_add');
 
 const imagePopupSelector = document.querySelector('.popup_type_image');
+
+const deletePopupSelector = document.querySelector('.popup_type_delete');
 
 const nameElement = document.querySelector('.profile__name');
 const descriptionElement = document.querySelector('.profile__description');
@@ -38,7 +41,7 @@ const api = new Api({
 })
 
 const createCard = (item) => {
-  const card = new Card(item, '#card-template', imagePopup.open);
+  const card = new Card(item, '#card-template', imagePopup.open, deletePopup.open.bind(deletePopup));
   return card.getCard();
 }
 
@@ -93,6 +96,9 @@ const addFormOpenHandler = () => {
 const imagePopup = new PopupWithImage(imagePopupSelector);
 imagePopup.setEventListeners();
 
+// delete popup
+const deletePopup = new Popup(deletePopupSelector);
+deletePopup.setEventListeners();
 
 editButton.addEventListener('click', editFormOpenHandler);
 addButton.addEventListener('click', addFormOpenHandler);

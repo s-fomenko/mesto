@@ -1,10 +1,11 @@
 export class Card {
-  constructor({ link, name, likes }, cardTemplate, handleCardClick) {
+  constructor({ link, name, likes }, cardTemplate, handleImageOpen, handleCardDelete) {
     this._link = link;
     this._name = name;
     this._likes = likes;
     this._cardTemplate = cardTemplate;
-    this._handleCardClick = handleCardClick;
+    this._handleImageOpen = handleImageOpen;
+    this._handleCardDelete = handleCardDelete;
   }
 
   _getLike = button => {
@@ -14,15 +15,13 @@ export class Card {
   }
 
   _removeCard = button => {
-    button.addEventListener('click', (evt) => {
-      evt.target.closest('.card').remove();
-    });
+    button.addEventListener('click', () => this._handleCardDelete());
   }
 
   _getImage = image => {
     image.addEventListener('click', (evt) => {
       this._card = evt.target.closest('.card');
-      this._handleCardClick(this._link, this._name)
+      this._handleImageOpen(this._link, this._name)
     });
   }
 
