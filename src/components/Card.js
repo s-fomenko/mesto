@@ -1,7 +1,8 @@
 export class Card {
-  constructor({ link, name }, cardTemplate, handleCardClick) {
+  constructor({ link, name, likes }, cardTemplate, handleCardClick) {
     this._link = link;
     this._name = name;
+    this._likes = likes;
     this._cardTemplate = cardTemplate;
     this._handleCardClick = handleCardClick;
   }
@@ -38,10 +39,12 @@ export class Card {
     this._card = document.querySelector(this._cardTemplate).content.querySelector('.card').cloneNode(true);
     this._cardImage = this._card.querySelector('.card__image');
     this._cardTitle = this._card.querySelector('.card__title');
+    this._cardLikesCount = this._card.querySelector('.card__likes-count');
 
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
     this._cardTitle.textContent = this._name;
+    this._cardLikesCount.textContent = this._likes.length;
     this._addListeners(this._card);
     return this._card;
   }

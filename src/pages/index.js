@@ -75,8 +75,8 @@ const editFormOpenHandler = () => {
 
 // add card
 const addFormSubmitHandler = (item) => {
-  cardList.addItemToStart(createCard(item));
   api.setNewCard(item.place, item.link)
+    .then(card => cardList.addItemToStart(createCard(card)))
     .catch(err => console.log(err))
   addPopup.close();
 };
