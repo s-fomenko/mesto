@@ -56,8 +56,8 @@ addCardValidator.enableValidation();
 const userInfo = new UserInfo({nameElement, descriptionElement, avatarElement})
 
 const editFormSubmitHandler = ({ name, description }) => {
-  userInfo.setUserInfo(name, description);
   api.editUserInfo(name, description)
+    .then(user => userInfo.setUserInfo(user.name, user.about))
     .catch(err => console.log(err))
   editPopup.close();
 };
