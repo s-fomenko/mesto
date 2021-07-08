@@ -1,8 +1,9 @@
 export class Card {
-  constructor({ link, name, likes }, cardTemplate, handleImageOpen, handleCardDelete) {
+  constructor({ link, name, likes, owner }, cardTemplate, handleImageOpen, handleCardDelete) {
     this._link = link;
     this._name = name;
     this._likes = likes;
+    this._owner = owner;
     this._cardTemplate = cardTemplate;
     this._handleImageOpen = handleImageOpen;
     this._handleCardDelete = handleCardDelete;
@@ -34,6 +35,12 @@ export class Card {
     this._getImage(this._image);
   }
 
+  _checkOwner = () => {
+    if (this._owner.name === 'Sergey Fomenko') {
+      this._removeButton.classList.add('card__button_visible');
+    }
+  }
+
   getCard = () => {
     this._card = document.querySelector(this._cardTemplate).content.querySelector('.card').cloneNode(true);
     this._cardImage = this._card.querySelector('.card__image');
@@ -45,6 +52,7 @@ export class Card {
     this._cardTitle.textContent = this._name;
     this._cardLikesCount.textContent = this._likes.length;
     this._addListeners(this._card);
+    this._checkOwner();
     return this._card;
   }
 }
