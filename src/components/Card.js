@@ -1,9 +1,10 @@
 export class Card {
-  constructor({ link, name, likes, owner }, cardTemplate, handleImageOpen, handleCardDelete) {
+  constructor({ link, name, likes, owner, _id }, cardTemplate, handleImageOpen, handleCardDelete) {
     this._link = link;
     this._name = name;
     this._likes = likes;
     this._owner = owner;
+    this._id = _id;
     this._cardTemplate = cardTemplate;
     this._handleImageOpen = handleImageOpen;
     this._handleCardDelete = handleCardDelete;
@@ -15,13 +16,12 @@ export class Card {
     });
   }
 
-  _removeCard = button => {
-    button.addEventListener('click', () => this._handleCardDelete());
+  _removeCardPopupOpen = button => {
+    button.addEventListener('click', () => this._handleCardDelete(this._id));
   }
 
   _getImage = image => {
-    image.addEventListener('click', (evt) => {
-      this._card = evt.target.closest('.card');
+    image.addEventListener('click', () => {
       this._handleImageOpen(this._link, this._name)
     });
   }
@@ -31,7 +31,7 @@ export class Card {
     this._removeButton = card.querySelector('.card__button_type_remove');
     this._image = card.querySelector('.card__image');
     this._getLike(this._likeButton);
-    this._removeCard(this._removeButton);
+    this._removeCardPopupOpen(this._removeButton);
     this._getImage(this._image);
   }
 
@@ -55,4 +55,6 @@ export class Card {
     this._checkOwner();
     return this._card;
   }
+
+  removeCard = () => this._card.remove();
 }

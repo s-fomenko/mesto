@@ -4,11 +4,11 @@ import { FormValidator } from '../components/FormValidator.js';
 import { Section } from '../components/Section.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
+import { DeletePopup } from '../components/DeletePopup.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { config } from '../utils/constants.js';
 
 import './index.css';
-import {Popup} from '../components/Popup';
 
 const editButton = document.querySelector('.profile__button_type_edit');
 const editPopupSelector = document.querySelector('.popup_type_edit');
@@ -42,6 +42,7 @@ const api = new Api({
 
 const createCard = (item) => {
   const card = new Card(item, '#card-template', imagePopup.open, deletePopup.open.bind(deletePopup));
+  deletePopup.getCardDeleteMethod(card);
   return card.getCard();
 }
 
@@ -97,7 +98,12 @@ const imagePopup = new PopupWithImage(imagePopupSelector);
 imagePopup.setEventListeners();
 
 // delete popup
-const deletePopup = new Popup(deletePopupSelector);
+const deletePopupSubmitHandler = (id) => {
+  api.deleteCard(id)
+    .catch(err => console.log(err))
+}
+
+const deletePopup = new DeletePopup(deletePopupSelector, deletePopupSubmitHandler);
 deletePopup.setEventListeners();
 
 editButton.addEventListener('click', editFormOpenHandler);

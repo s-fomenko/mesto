@@ -50,7 +50,7 @@
   <div class="popup popup_type_add">
     <div class="popup__container">
       <button class="popup__button" type="button"></button>
-      <form class="form form_type_add" action="#" name="editProfile">
+      <form class="form form_type_add" action="#" name="addCard">
         <h2 class="form__title">Новое место</h2>
         <div class="form__input-wrapper">
           <input class="form__input" id="place" type="text" name="place" placeholder="Название" minlength="2" maxlength="30" required>
@@ -78,8 +78,10 @@
   <div class="popup popup_type_delete">
     <div class="popup__container">
       <button class="popup__button" type="button"></button>
-      <h2 class="form__title form__title_type_delete">Вы уверены?</h2>
-      <button class="form__button form__button_type_delete" type="button">Да</button>
+      <form class="form form_type_delete" action="#" name="deleteCard">
+        <h2 class="form__title form__title_type_delete">Вы уверены?</h2>
+        <button class="form__button form__button_type_delete" type="submit">Да</button>
+      </form>
     </div>
   </div>
 
