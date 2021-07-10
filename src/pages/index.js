@@ -22,6 +22,11 @@ const addPopupSelector = document.querySelector('.popup_type_add');
 
 const addForm = document.querySelector('.form_type_add');
 
+const avatarEditButton = document.querySelector('.profile__button_type_avatar-edit');
+const avatarEditPopupSelector = document.querySelector('.popup_type_avatar-edit');
+
+const avatarEditForm = document.querySelector('.form_type_avatar-edit');
+
 const imagePopupSelector = document.querySelector('.popup_type_image');
 
 const deletePopupSelector = document.querySelector('.popup_type_delete');
@@ -55,11 +60,14 @@ const cardList = new Section({renderer: (item) => {
     cardList.addItemToEnd(createCard(item));
   }}, cardsContainer);
 
-const editCardValidator = new FormValidator(editForm, config);
-editCardValidator.enableValidation();
+const editProfileValidator = new FormValidator(editForm, config);
+editProfileValidator.enableValidation();
 
 const addCardValidator = new FormValidator(addForm, config);
 addCardValidator.enableValidation();
+
+const editAvatarValidator = new FormValidator(avatarEditForm, config);
+editAvatarValidator.enableValidation();
 
 // edit user info
 const userInfo = new UserInfo({nameElement, descriptionElement, avatarElement})
@@ -80,6 +88,22 @@ const editFormOpenHandler = () => {
   nameInput.value = userData.name
   descriptionInput.value = userData.description;
   editPopup.open();
+};
+
+// edit avatar
+const editAvatarFormSubmitHandler = (item) => {
+  api.editUserAvatar(item.avatar)
+    .then(user => userInfo.setUserAvatar(user.avatar))
+    .catch(err => console.log(err))
+  editAvatarPopup.close();
+};
+
+const editAvatarPopup = new PopupWithForm(avatarEditPopupSelector, editAvatarFormSubmitHandler);
+editAvatarPopup.setEventListeners();
+
+const editAvatarFormOpenHandler = () => {
+  editAvatarValidator.disableSubmitButton();
+  editAvatarPopup.open();
 };
 
 // add card
@@ -112,6 +136,7 @@ const deletePopup = new DeletePopup(deletePopupSelector, deletePopupSubmitHandle
 deletePopup.setEventListeners();
 
 editButton.addEventListener('click', editFormOpenHandler);
+avatarEditButton.addEventListener('click', editAvatarFormOpenHandler)
 addButton.addEventListener('click', addFormOpenHandler);
 
 // create initial userInfo
