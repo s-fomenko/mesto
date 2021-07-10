@@ -41,7 +41,12 @@ const api = new Api({
 })
 
 const createCard = (item) => {
-  const card = new Card(item, '#card-template', imagePopup.open, deletePopup.open.bind(deletePopup));
+  const card = new Card(item, '#card-template', {
+    handleImageOpen: imagePopup.open,
+    handleCardDelete: deletePopup.open.bind(deletePopup),
+    handleSetLike: api.setLike,
+    handleRemoveLike: api.removeLike,
+  });
   deletePopup.getCardDeleteMethod(card);
   return card.getCard();
 }
