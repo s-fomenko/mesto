@@ -73,9 +73,11 @@ editAvatarValidator.enableValidation();
 const userInfo = new UserInfo({nameElement, descriptionElement, avatarElement})
 
 const editFormSubmitHandler = ({ name, description }) => {
+  editPopup.dataLoading(true);
   api.editUserInfo(name, description)
     .then(user => userInfo.setUserInfo(user.name, user.about))
     .catch(err => console.log(err))
+    .finally(editPopup.dataLoading(false));
   editPopup.close();
 };
 
@@ -92,9 +94,11 @@ const editFormOpenHandler = () => {
 
 // edit avatar
 const editAvatarFormSubmitHandler = (item) => {
+  editAvatarPopup.dataLoading(true);
   api.editUserAvatar(item.avatar)
     .then(user => userInfo.setUserAvatar(user.avatar))
     .catch(err => console.log(err))
+    .finally(editAvatarPopup.dataLoading(false))
   editAvatarPopup.close();
 };
 
@@ -108,9 +112,11 @@ const editAvatarFormOpenHandler = () => {
 
 // add card
 const addFormSubmitHandler = (item) => {
+  addPopup.dataLoading(true);
   api.setNewCard(item.place, item.link)
     .then(card => cardList.addItemToStart(createCard(card)))
     .catch(err => console.log(err))
+    .finally(addPopup.dataLoading(false))
   addPopup.close();
 };
 
