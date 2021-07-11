@@ -86,4 +86,6 @@ export class Api {
     })
       .then(this._checkServerResponse)
   }
+
+  getInitialData = () => Promise.all([this.getUserInfo(), this.getCards()])
 }

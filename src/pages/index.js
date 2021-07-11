@@ -6,36 +6,29 @@ import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { DeletePopup } from '../components/DeletePopup.js';
 import { UserInfo } from '../components/UserInfo.js';
-import { config } from '../utils/constants.js';
+import {
+  addButton,
+  addForm,
+  addPopupSelector,
+  avatarEditButton,
+  avatarEditForm,
+  avatarEditPopupSelector,
+  avatarElement,
+  cardsContainer,
+  config,
+  deletePopupSelector,
+  descriptionElement,
+  descriptionInput, editButton,
+  editForm,
+  editPopupSelector,
+  imagePopupSelector,
+  nameElement,
+  nameInput
+} from '../utils/constants.js';
 
 import './index.css';
 
-const editButton = document.querySelector('.profile__button_type_edit');
-const editPopupSelector = document.querySelector('.popup_type_edit');
-
-const editForm = document.querySelector('.form_type_edit');
-const nameInput = editForm.querySelector('#name');
-const descriptionInput = editForm.querySelector('#description');
-
-const addButton = document.querySelector('.profile__button_type_add');
-const addPopupSelector = document.querySelector('.popup_type_add');
-
-const addForm = document.querySelector('.form_type_add');
-
-const avatarEditButton = document.querySelector('.profile__button_type_avatar-edit');
-const avatarEditPopupSelector = document.querySelector('.popup_type_avatar-edit');
-
-const avatarEditForm = document.querySelector('.form_type_avatar-edit');
-
-const imagePopupSelector = document.querySelector('.popup_type_image');
-
-const deletePopupSelector = document.querySelector('.popup_type_delete');
-
-const nameElement = document.querySelector('.profile__name');
-const descriptionElement = document.querySelector('.profile__description');
-const avatarElement = document.querySelector('.profile__avatar');
-
-const cardsContainer = '.elements';
+let userId;
 
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-25',
@@ -46,13 +39,12 @@ const api = new Api({
 })
 
 const createCard = (item) => {
-  const card = new Card(item, '#card-template', {
+  const card = new Card(item, '#card-template', userId, {
     handleImageOpen: imagePopup.open,
     handleCardDelete: deletePopup.open.bind(deletePopup),
     handleSetLike: api.setLike,
     handleRemoveLike: api.removeLike,
   });
-  deletePopup.getCardDeleteMethod(card);
   return card.getCard();
 }
 
@@ -75,10 +67,12 @@ const userInfo = new UserInfo({nameElement, descriptionElement, avatarElement})
 const editFormSubmitHandler = ({ name, description }) => {
   editPopup.dataLoading(true);
   api.editUserInfo(name, description)
-    .then(user => userInfo.setUserInfo(user.name, user.about))
+    .then(user => {
+      userInfo.setUserInfo(user);
+      editPopup.close();
+    })
     .catch(err => console.log(err))
     .finally(editPopup.dataLoading(false));
-  editPopup.close();
 };
 
 const editPopup = new PopupWithForm(editPopupSelector, editFormSubmitHandler);
@@ -89,6 +83,7 @@ const editFormOpenHandler = () => {
 
   nameInput.value = userData.name
   descriptionInput.value = userData.description;
+  editProfileValidator.resetValidation();
   editPopup.open();
 };
 
@@ -96,17 +91,19 @@ const editFormOpenHandler = () => {
 const editAvatarFormSubmitHandler = (item) => {
   editAvatarPopup.dataLoading(true);
   api.editUserAvatar(item.avatar)
-    .then(user => userInfo.setUserAvatar(user.avatar))
+    .then(user => {
+      userInfo.setUserInfo(user);
+      editAvatarPopup.close();
+    })
     .catch(err => console.log(err))
     .finally(editAvatarPopup.dataLoading(false))
-  editAvatarPopup.close();
 };
 
 const editAvatarPopup = new PopupWithForm(avatarEditPopupSelector, editAvatarFormSubmitHandler);
 editAvatarPopup.setEventListeners();
 
 const editAvatarFormOpenHandler = () => {
-  editAvatarValidator.disableSubmitButton();
+  editAvatarValidator.resetValidation();
   editAvatarPopup.open();
 };
 
@@ -114,17 +111,19 @@ const editAvatarFormOpenHandler = () => {
 const addFormSubmitHandler = (item) => {
   addPopup.dataLoading(true);
   api.setNewCard(item.place, item.link)
-    .then(card => cardList.addItemToStart(createCard(card)))
+    .then(card => {
+      cardList.addItemToStart(createCard(card));
+      addPopup.close();
+    })
     .catch(err => console.log(err))
     .finally(addPopup.dataLoading(false))
-  addPopup.close();
 };
 
 const addPopup = new PopupWithForm(addPopupSelector, addFormSubmitHandler);
 addPopup.setEventListeners();
 
 const addFormOpenHandler = () => {
-  addCardValidator.disableSubmitButton();
+  addCardValidator.resetValidation();
   addPopup.open();
 };
 
@@ -133,8 +132,11 @@ const imagePopup = new PopupWithImage(imagePopupSelector);
 imagePopup.setEventListeners();
 
 // delete popup
-const deletePopupSubmitHandler = (id) => {
-  api.deleteCard(id)
+const deletePopupSubmitHandler = (id, card) => {
+  return api.deleteCard(id)
+    .then(() => {
+      card.removeCard();
+    })
     .catch(err => console.log(err))
 }
 
@@ -145,16 +147,11 @@ editButton.addEventListener('click', editFormOpenHandler);
 avatarEditButton.addEventListener('click', editAvatarFormOpenHandler)
 addButton.addEventListener('click', addFormOpenHandler);
 
-// create initial userInfo
-api.getUserInfo()
-  .then(user => {
-    userInfo.setUserInitialInfo(user.name, user.about, user.avatar);
-  })
-  .catch(err => console.log(err))
-
-// create initial cards
-api.getCards()
-  .then(cards => {
+// get initial data
+api.getInitialData()
+  .then(([user, cards]) => {
+    userInfo.setUserInfo(user);
+    userId = user._id
     cardList.renderItems(cards);
   })
   .catch(err => console.log(err))

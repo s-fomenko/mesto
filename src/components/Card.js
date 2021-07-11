@@ -1,5 +1,5 @@
 export class Card {
-  constructor({ link, name, likes, owner, _id }, cardTemplate, {handleImageOpen, handleCardDelete, handleSetLike, handleRemoveLike}) {
+  constructor({ link, name, likes, owner, _id }, cardTemplate, userId, {handleImageOpen, handleCardDelete, handleSetLike, handleRemoveLike}) {
     this._link = link;
     this._name = name;
     this._likes = likes;
@@ -10,27 +10,32 @@ export class Card {
     this._handleCardDelete = handleCardDelete;
     this._handleSetLike = handleSetLike;
     this._handleRemoveLike = handleRemoveLike;
+    this._userId = userId;
   }
 
   _setLikesCount = likes => this._cardLikesCount.textContent = likes.length;
 
   _setLike = (button) => {
     this._handleSetLike(this._id)
-      .then(card => this._setLikesCount(card.likes))
+      .then(card => {
+        this._setLikesCount(card.likes);
+        button.classList.add('card__button_active');
+      })
       .catch(err => console.log(err));
-    button.classList.add('card__button_active');
   }
 
   _removeLike = (button) => {
     this._handleRemoveLike(this._id)
-      .then(card => this._setLikesCount(card.likes))
+      .then(card => {
+        this._setLikesCount(card.likes);
+        button.classList.remove('card__button_active');
+      })
       .catch(err => console.log(err));
-    button.classList.remove('card__button_active');
   }
 
   _isLikedByMe = (likes, button) => {
     likes.forEach(user => {
-      if (user._id === '006c9ca988c16596e24dacc8') {
+      if (user._id === this._userId) {
         button.classList.add('card__button_active');
       }
     })
@@ -47,7 +52,7 @@ export class Card {
   }
 
   _removeCardPopupOpen = button => {
-    button.addEventListener('click', () => this._handleCardDelete(this._id));
+    button.addEventListener('click', () => this._handleCardDelete(this._id, this));
   }
 
   _getImage = image => {
@@ -67,7 +72,7 @@ export class Card {
   }
 
   _checkOwner = () => {
-    if (this._owner._id === '006c9ca988c16596e24dacc8') {
+    if (this._owner._id === this._userId) {
       this._removeButton.classList.add('card__button_visible');
     }
   }
