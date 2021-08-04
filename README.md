@@ -7,5 +7,6 @@
 - HTML
 - CSS
 - JavaScript
+- Webpack
 
 [Ссылка на страницу проекта](https://s-fomenko.github.io/mesto/)
